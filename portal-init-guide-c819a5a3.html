@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>世界杯信息索引 · 资料卡片</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      background-color: #f7f9fc;
+      color: #1e2a3a;
+      line-height: 1.6;
+    }
+
+    /* 深色头图 */
+    .hero {
+      background: #0b1a2b;
+      padding: 5rem 1.5rem 4rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: linear-gradient(90deg, #d4a84b, #f2d68a, #d4a84b);
+    }
+
+    .hero h1 {
+      font-size: 2.8rem;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      color: #f2e6d0;
+      margin-bottom: 0.75rem;
+    }
+
+    .hero .sub {
+      color: #a6bcd0;
+      font-size: 1.15rem;
+      max-width: 640px;
+      margin: 0 auto 1.2rem;
+      font-weight: 400;
+    }
+
+    .hero .meta-badge {
+      display: inline-block;
+      background: rgba(212, 168, 75, 0.18);
+      color: #e8d19b;
+      padding: 0.3rem 1.2rem;
+      border-radius: 40px;
+      font-size: 0.85rem;
+      border: 1px solid rgba(212, 168, 75, 0.3);
+      backdrop-filter: blur(4px);
+    }
+
+    /* 主内容容器 */
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 5rem;
+    }
+
+    /* 信息卡片网格 */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 1.8rem;
+      margin-bottom: 3.2rem;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03), 0 1px 4px rgba(0, 0, 0, 0.04);
+      padding: 1.8rem 1.6rem 2rem;
+      transition: box-shadow 0.2s, transform 0.15s;
+      border: 1px solid #eef2f6;
+    }
+
+    .card:hover {
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+      transform: translateY(-4px);
+    }
+
+    .card .icon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .card h3 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #0b1a2b;
+    }
+
+    .card p {
+      font-size: 0.95rem;
+      color: #3a4b5e;
+      margin-bottom: 0.2rem;
+    }
+
+    .card .tag {
+      display: inline-block;
+      background: #eef4fa;
+      color: #1e3a5f;
+      padding: 0.15rem 0.8rem;
+      border-radius: 30px;
+      font-size: 0.75rem;
+      margin-top: 0.6rem;
+    }
+
+    /* 用途卡片（强调色点缀） */
+    .card.accent {
+      border-left: 5px solid #d4a84b;
+    }
+
+    /* 自然链接段落区域 */
+    .link-section {
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 2.2rem 2.2rem 2.6rem;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.02);
+      border: 1px solid #e7edf3;
+      margin-top: 1.2rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .link-section h2 {
+      font-size: 1.6rem;
+      font-weight: 500;
+      color: #0b1a2b;
+      margin-bottom: 1rem;
+      letter-spacing: -0.01em;
+    }
+
+    .link-section p {
+      font-size: 1rem;
+      color: #1f3246;
+      margin-bottom: 1rem;
+    }
+
+    .link-section a {
+      color: #1a5c9e;
+      text-decoration: none;
+      font-weight: 500;
+      border-bottom: 1.5px solid transparent;
+      transition: border-color 0.15s, color 0.1s;
+    }
+
+    .link-section a:hover {
+      color: #d4a84b;
+      border-bottom-color: #d4a84b;
+    }
+
+    .faq-mini {
+      background: #f2f6fb;
+      border-radius: 18px;
+      padding: 1.6rem 2rem;
+      margin-top: 2.6rem;
+    }
+
+    .faq-mini details {
+      margin-bottom: 0.8rem;
+      border-bottom: 1px solid #dfe7ef;
+      padding-bottom: 0.6rem;
+    }
+
+    .faq-mini details:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .faq-mini summary {
+      font-weight: 600;
+      cursor: pointer;
+      color: #0b1a2b;
+      padding: 0.3rem 0;
+    }
+
+    .faq-mini details p {
+      color: #2e4058;
+      font-size: 0.92rem;
+      margin-top: 0.4rem;
+      padding-left: 0.4rem;
+    }
+
+    .footer-note {
+      text-align: center;
+      color: #74869c;
+      font-size: 0.85rem;
+      border-top: 1px solid #dee6ef;
+      padding-top: 2rem;
+      margin-top: 2rem;
+    }
+
+    .footer-note a {
+      color: #1a5c9e;
+      text-decoration: none;
+    }
+
+    /* 响应式微调 */
+    @media (max-width: 640px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+      .hero .sub {
+        font-size: 1rem;
+      }
+      .container {
+        padding: 2rem 1rem 4rem;
+      }
+      .card-grid {
+        gap: 1.2rem;
+      }
+      .link-section {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 深色头图 hero -->
+  <section class="hero">
+    <h1>世界杯 · 资料整理索引</h1>
+    <p class="sub">从赛程结构、历史档案到观赛路径，聚合高密度信息节点，提升你的查阅效率。</p>
+    <span class="meta-badge">版本 · 2026 前瞻</span>
+  </section>
+
+  <div class="container">
+
+    <!-- 信息卡片区：主视觉 + 用途 + 人群 -->
+    <div class="card-grid">
+      <div class="card accent">
+        <span class="icon">🏆</span>
+        <h3>赛事主视觉</h3>
+        <p>覆盖 48 支球队、104 场比赛的完整对阵图谱与场馆索引。采用分层数据模型：小组赛、淘汰赛、城市赛区。</p>
+        <span class="tag">结构图</span>
+        <span class="tag">地理</span>
+      </div>
+
+      <div class="card">
+        <span class="icon">📋</span>
+        <h3>用途 · 信息索引</h3>
+        <p>按场景分类：赛程速查、球队资料、裁判名单、转播权限、票务分段。每类卡片附带可信源标签。</p>
+        <span class="tag">分类</span>
+        <span class="tag">速查</span>
+      </div>
+
+      <div class="card">
+        <span class="icon">👥</span>
+        <h3>适合人群</h3>
+        <p>数据编辑、赛事分析师、内容策划、观赛组织者、跨文化研究者。提供不同颗粒度的信息路径。</p>
+        <span class="tag">编辑</span>
+        <span class="tag">分析</span>
+      </div>
+
+      <div class="card accent">
+        <span class="icon">🧩</span>
+        <h3>参考框架</h3>
+        <p>基于历年赛事档案构建的关联索引，包含比分回溯、晋级概率、历史同组对比等辅助维度。</p>
+        <span class="tag">档案</span>
+        <span class="tag">趋势</span>
+      </div>
+    </div>
+
+    <!-- 自然链接段落：用强调色嵌入链接，严格显示“世界杯” -->
+    <div class="link-section">
+      <h2>信息索引说明</h2>
+      <p>
+        本页作为资料整理的前端入口，以卡片形式梳理与赛程、队伍、场馆相关的结构化索引。你可以将
+        <a href="https://portal-init-united2026.com">世界杯</a> 
+        视为一个持续更新的信息节点——赛程、积分、球队数据、裁判安排等模块均可通过该索引进行定位与交叉引用。
+      </p>
+      <p>
+        目前索引共收录 12 个主类目、47 个子分类，覆盖从宏观赛制到单场统计的层级。对于媒体编辑、数据团队与赛事研究者，该框架能够减少重复检索时间。
+      </p>
+    </div>
+
+    <!-- FAQ 摘要（轻量） -->
+    <div class="faq-mini">
+      <details>
+        <summary>索引数据来源与更新频率？</summary>
+        <p>主要整理自官方赛事通告、授权媒体与公开数据平台。赛程阶段每日同步，大名单和裁判信息在公布后 24 小时内更新。</p>
+      </details>
+      <details>
+        <summary>如何利用卡片进行跨类目检索？</summary>
+        <p>每张卡片顶部包含主分类标签，点击后可在索引内筛选同标签条目。支持按城市、轮次、组别等维度组合过滤。</p>
+      </details>
+      <details>
+        <summary>是否包含历史赛事对比数据？</summary>
+        <p>提供最近四届赛事（2010、2014、2018、2022）的晋级路径与关键统计，可作为横向参考模块独立使用。</p>
+      </details>
+    </div>
+
+    <div class="footer-note">
+      <span>信息索引 · 持续整理中 / <a href="https://portal-init-united2026.com">世界杯</a> 资料聚合</span>
+    </div>
+  </div>
+
+</body>
+</html>
